@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:padding="24dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Page Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ride Agreement"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm ride details with your partner"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Ride Details -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@android:color/white"
+            android:layout_marginBottom="24dp"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_driver_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Driver: Micheal Smith"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_passenger_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Passenger: Sarah Lee"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_pickup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pickup: Main Campus Gate"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_destination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Destination: City Mall"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pickup Time: 15:30"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price: R40"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes: Please be on time"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Confirmation Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_decline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Decline"
+                android:textSize="16sp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@android:color/white"
+                android:textColor="@color/primary"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_accept"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Accept"
+                android:textSize="16sp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@android:color/white"
+                android:textColor="@color/primary"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Chat Option -->
+        <TextView
+            android:id="@+id/tv_open_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Need to discuss? Open chat"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="24dp"
+            android:padding="8dp" />
+
+    </LinearLayout>
+</ScrollView>
