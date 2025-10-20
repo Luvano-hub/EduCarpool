@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         if (user.getVerified()) {
                             intent = new Intent(LoginActivity.this, DriverDashboardActivity.class);
+                            intent.putExtra("user_email", user.getEmail());
                         } else {
                             intent = new Intent(LoginActivity.this, VerificationPendingActivity.class);
                         }

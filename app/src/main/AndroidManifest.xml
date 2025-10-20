@@ -79,6 +79,11 @@
             android:name=".VerificationPendingActivity"
             android:exported="false" />
 
+        <!-- Carpool Matches Activity -->
+        <activity
+            android:name=".CarpoolMatchesActivity"
+            android:exported="false" />
+
         <!-- Chat Activity -->
         <activity
             android:name=".ChatActivity"
