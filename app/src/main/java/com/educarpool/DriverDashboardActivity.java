@@ -19,14 +19,21 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriverDashboardActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,6 +52,14 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TextView tvUserName, tvUserEmail, tvUserRating;
+
+    // New variables for request functionality
+    private TextView tvRequestCount;
+    private MaterialButton btnRefreshRequests;
+    private LinearLayout bottomSheet, layoutEmpty;
+    private RecyclerView recyclerRequests;
+    private com.google.android.material.bottomsheet.BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
+    private RequestAdapter requestAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +85,9 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         setupClickListeners();
         setupMap();
         loadUserData();
+
+        // After all other setup
+        setupDriverDashboard();
     }
 
     private void initializeViews() {
@@ -95,6 +113,13 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
 
         btnCloseDrawer.setOnClickListener(v -> drawerLayout.closeDrawer(GravityCompat.START));
         btnUpdateProfile.setOnClickListener(v -> showUpdateProfileDialog());
+
+        // Bottom sheet views
+        tvRequestCount = findViewById(R.id.tv_request_count);
+        btnRefreshRequests = findViewById(R.id.btn_refresh_requests);
+        bottomSheet = findViewById(R.id.bottom_sheet);
+        recyclerRequests = findViewById(R.id.recycler_requests);
+        layoutEmpty = findViewById(R.id.layout_empty);
     }
 
     private void setupNavigationDrawer() {
@@ -502,6 +527,230 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    // New methods for request functionality
+    private void setupDriverDashboard() {
+        setupBottomSheet();
+        setupRequestList();
+        setupRequestClickListeners();
+
+        // Load requests when dashboard is ready
+        if (currentUser != null) {
+            loadPendingRequests();
+        }
+    }
+
+    private void setupBottomSheet() {
+        bottomSheetBehavior = com.google.android.material.bottomsheet.BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setState(com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBehavior.setFitToContents(false);
+        bottomSheetBehavior.setHideable(false);
+        bottomSheetBehavior.setHalfExpandedRatio(0.5f);
+
+        bottomSheet.setVisibility(View.VISIBLE);
+        bottomSheet.bringToFront();
+
+        bottomSheetBehavior.addBottomSheetCallback(new com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED:
+                        Log.d("DriverBottomSheet", "Collapsed");
+                        break;
+                    case com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED:
+                        Log.d("DriverBottomSheet", "Half Expanded");
+                        break;
+                    case com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED:
+                        bottomSheetBehavior.setState(com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED);
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
+        });
+    }
+
+    private void setupRequestList() {
+        requestAdapter = new RequestAdapter(new ArrayList<>());
+        requestAdapter.setOnRequestActionListener(new RequestAdapter.OnRequestActionListener() {
+            @Override
+            public void onAccept(RideRequest request) {
+                acceptRideRequest(request);
+            }
+
+            @Override
+            public void onDecline(RideRequest request) {
+                declineRideRequest(request);
+            }
+
+            @Override
+            public void onShowOnMap(RideRequest request) {
+                showPassengerOnMap(request);
+            }
+        });
+
+        recyclerRequests.setLayoutManager(new LinearLayoutManager(this));
+        recyclerRequests.setAdapter(requestAdapter);
+        showEmptyRequestState();
+    }
+
+    private void setupRequestClickListeners() {
+        btnRefreshRequests.setOnClickListener(v -> refreshRequests());
+    }
+
+    private void refreshRequests() {
+        if (currentUser == null) return;
+
+        btnRefreshRequests.setEnabled(false);
+        btnRefreshRequests.setText("Refreshing...");
+        Toast.makeText(this, "Refreshing requests...", Toast.LENGTH_SHORT).show();
+
+        loadPendingRequests();
+    }
+
+    private void loadPendingRequests() {
+        if (currentUser == null) return;
+
+        userRepository.getPendingRequests(currentUser.getEmail(), new UserRepository.RequestsCallback() {
+            @Override
+            public void onSuccess(List<RideRequest> requests) {
+                Log.d("DriverDashboard", "Loaded " + requests.size() + " pending requests");
+                runOnUiThread(() -> {
+                    btnRefreshRequests.setEnabled(true);
+                    btnRefreshRequests.setText("Refresh Requests");
+                    showRequestList(requests);
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("DriverDashboard", "Failed to load requests: " + error);
+                runOnUiThread(() -> {
+                    btnRefreshRequests.setEnabled(true);
+                    btnRefreshRequests.setText("Refresh Requests");
+                    Toast.makeText(DriverDashboardActivity.this, "Failed to load requests: " + error, Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    private void showEmptyRequestState() {
+        runOnUiThread(() -> {
+            layoutEmpty.setVisibility(View.VISIBLE);
+            recyclerRequests.setVisibility(View.GONE);
+            tvRequestCount.setText("0 requests");
+        });
+    }
+
+    private void showRequestList(List<RideRequest> requests) {
+        runOnUiThread(() -> {
+            if (requests.isEmpty()) {
+                showEmptyRequestState();
+            } else {
+                layoutEmpty.setVisibility(View.GONE);
+                recyclerRequests.setVisibility(View.VISIBLE);
+                requestAdapter.updateRequests(requests);
+                tvRequestCount.setText(requests.size() + " request" + (requests.size() == 1 ? "" : "s"));
+            }
+        });
+    }
+
+    private void acceptRideRequest(RideRequest request) {
+        Toast.makeText(this, "Accepting request from " + request.getPassengerName(), Toast.LENGTH_SHORT).show();
+
+        userRepository.updateRequestStatus(request.getId(), "accepted", new UserRepository.UserUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("DriverDashboard", "Request accepted successfully");
+                runOnUiThread(() -> {
+                    Toast.makeText(DriverDashboardActivity.this,
+                            "Request accepted! You can now chat with " + request.getPassengerName(),
+                            Toast.LENGTH_LONG).show();
+
+                    // Remove the request from the list
+                    loadPendingRequests();
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("DriverDashboard", "Failed to accept request: " + error);
+                runOnUiThread(() -> {
+                    Toast.makeText(DriverDashboardActivity.this,
+                            "Failed to accept request: " + error,
+                            Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    private void declineRideRequest(RideRequest request) {
+        Toast.makeText(this, "Declining request from " + request.getPassengerName(), Toast.LENGTH_SHORT).show();
+
+        userRepository.updateRequestStatus(request.getId(), "declined", new UserRepository.UserUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                Log.d("DriverDashboard", "Request declined successfully");
+                runOnUiThread(() -> {
+                    Toast.makeText(DriverDashboardActivity.this,
+                            "Request declined",
+                            Toast.LENGTH_SHORT).show();
+
+                    // Remove the request from the list
+                    loadPendingRequests();
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("DriverDashboard", "Failed to decline request: " + error);
+                runOnUiThread(() -> {
+                    Toast.makeText(DriverDashboardActivity.this,
+                            "Failed to decline request: " + error,
+                            Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    private void showPassengerOnMap(RideRequest request) {
+        if (request.getPassengerLat() != null && request.getPassengerLng() != null) {
+            LatLng passengerLocation = new LatLng(request.getPassengerLat(), request.getPassengerLng());
+
+            if (mMap != null) {
+                mMap.clear();
+
+                // Add marker for passenger
+                mMap.addMarker(new MarkerOptions()
+                        .position(passengerLocation)
+                        .title(request.getPassengerName())
+                        .snippet(request.getPassengerHomeAddress()));
+
+                // Add marker for driver (current location)
+                if (currentUser != null && currentUser.hasCoordinates()) {
+                    LatLng driverLocation = new LatLng(currentUser.getLatitude(), currentUser.getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(driverLocation)
+                            .title("Your Location")
+                            .icon(com.google.android.gms.maps.model.BitmapDescriptorFactory.defaultMarker(com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE)));
+                }
+
+                // Zoom to show both markers
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder.include(passengerLocation);
+                if (currentUser != null && currentUser.hasCoordinates()) {
+                    builder.include(new LatLng(currentUser.getLatitude(), currentUser.getLongitude()));
+                }
+                LatLngBounds bounds = builder.build();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+
+                Toast.makeText(this, "Showing " + request.getPassengerName() + "'s location", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Passenger location not available", Toast.LENGTH_SHORT).show();
         }
     }
 }

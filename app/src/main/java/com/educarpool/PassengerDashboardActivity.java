@@ -169,8 +169,12 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         showEmptyDriverState();
     }
 
+    // UPDATED: sendRideRequestToDriver with proper button state management
     private void sendRideRequestToDriver(Driver driver) {
         if (currentUser == null) return;
+
+        // Disable the button for this specific driver
+        updateDriverButtonState(driver.getId(), false);
 
         Toast.makeText(this, "Sending ride request to " + driver.getName(), Toast.LENGTH_SHORT).show();
 
@@ -187,6 +191,9 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
                             Toast.makeText(PassengerDashboardActivity.this,
                                     "Ride request sent to " + driver.getName(),
                                     Toast.LENGTH_LONG).show();
+
+                            // Re-enable button after success
+                            updateDriverButtonState(driver.getId(), true);
                         });
                     }
 
@@ -196,10 +203,28 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
                             Toast.makeText(PassengerDashboardActivity.this,
                                     "Failed to send request: " + error,
                                     Toast.LENGTH_LONG).show();
+
+                            // Re-enable button on error
+                            updateDriverButtonState(driver.getId(), true);
                         });
                     }
                 }
         );
+    }
+
+    // UPDATED: Helper method to update driver button state using public methods
+    private void updateDriverButtonState(String driverId, boolean enabled) {
+        int position = driverAdapter.findPositionByDriverId(driverId);
+        if (position != -1) {
+            RecyclerView.ViewHolder holder = recyclerDrivers.findViewHolderForAdapterPosition(position);
+            if (holder instanceof DriverAdapter.DriverViewHolder) {
+                DriverAdapter.DriverViewHolder driverHolder = (DriverAdapter.DriverViewHolder) holder;
+                driverHolder.setButtonEnabled(enabled);
+            } else {
+                // If view holder is not available, notify the adapter to update the item
+                driverAdapter.notifyItemChanged(position);
+            }
+        }
     }
 
     private void showEmptyDriverState() {
@@ -247,6 +272,7 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         btnFindMatches.setOnClickListener(v -> findDriverMatches());
     }
 
+    // UPDATED: findDriverMatches with button state management
     private void findDriverMatches() {
         if (currentUser == null || !currentUser.hasCoordinates()) {
             Toast.makeText(this, "Please set your home address first", Toast.LENGTH_SHORT).show();
@@ -327,7 +353,11 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         });
     }
 
+    // UPDATED: saveMatchesToDatabase - now uses the improved saveMatch method
     private void saveMatchesToDatabase(List<DriverMatch> matches) {
+        int totalMatches = matches.size();
+        final int[] completedMatches = {0};
+
         for (DriverMatch match : matches) {
             userRepository.saveMatch(
                     currentUser.getEmail(),
@@ -337,19 +367,25 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
                     new UserRepository.UserUpdateCallback() {
                         @Override
                         public void onSuccess() {
-                            Log.d("PassengerDashboard", "Match saved successfully for driver: " + match.getName());
+                            Log.d("PassengerDashboard", "Match saved/updated successfully for driver: " + match.getName());
+                            completedMatches[0]++;
+
+                            // Log progress
+                            if (completedMatches[0] == totalMatches) {
+                                Log.d("PassengerDashboard", "All " + totalMatches + " matches processed successfully");
+                            }
                         }
 
                         @Override
                         public void onError(String error) {
                             Log.e("PassengerDashboard", "Failed to save match for driver: " + match.getName() + " - " + error);
+                            completedMatches[0]++;
                         }
                     }
             );
         }
     }
 
-    // Rest of your existing methods remain the same...
     private void setupMap() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.map_fragment);

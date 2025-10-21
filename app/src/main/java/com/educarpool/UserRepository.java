@@ -29,7 +29,6 @@ public class UserRepository {
         client = new OkHttpClient();
     }
 
-    // Existing methods...
     public void updateUserCoordinates(String email, double latitude, double longitude, UserUpdateCallback callback) {
         try {
             JSONObject json = new JSONObject();
@@ -259,7 +258,6 @@ public class UserRepository {
         });
     }
 
-    // NEW: Get verified drivers with coordinates
     public void getVerifiedDriversWithCoordinates(DriversFetchCallback callback) {
         String url = AuthRepository.SUPABASE_URL + "/rest/v1/users?role=eq.driver&verified=eq.true&select=*";
         Log.d(TAG, "Fetching verified drivers from: " + url);
@@ -328,8 +326,66 @@ public class UserRepository {
         });
     }
 
-    // NEW: Save match to database
+    // UPDATED: saveMatch method with duplicate prevention
     public void saveMatch(String passengerEmail, String driverEmail, double distance, int duration, UserUpdateCallback callback) {
+        try {
+            // First, check if a pending match already exists between this passenger and driver
+            String checkUrl = AuthRepository.SUPABASE_URL + "/rest/v1/matches?passenger_email=eq." + passengerEmail +
+                    "&driver_email=eq." + driverEmail + "&status=eq.pending";
+            Log.d(TAG, "Checking for existing match: " + checkUrl);
+
+            Request checkRequest = new Request.Builder()
+                    .url(checkUrl)
+                    .get()
+                    .addHeader("apikey", AuthRepository.API_KEY)
+                    .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
+
+            client.newCall(checkRequest).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "Check existing match failed: " + e.getMessage());
+                    // If check fails, try to insert as new
+                    insertNewMatch(passengerEmail, driverEmail, distance, duration, callback);
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseBody = response.body() != null ? response.body().string() : "No response body";
+                    Log.d(TAG, "Check existing match response - Code: " + response.code() + ", Body: " + responseBody);
+
+                    if (response.isSuccessful()) {
+                        try {
+                            JSONArray existingMatches = new JSONArray(responseBody);
+                            if (existingMatches.length() > 0) {
+                                // Existing match found - update it
+                                JSONObject existingMatch = existingMatches.getJSONObject(0);
+                                String matchId = existingMatch.getString("id");
+                                updateExistingMatch(matchId, distance, duration, callback);
+                            } else {
+                                // No existing match - insert new
+                                insertNewMatch(passengerEmail, driverEmail, distance, duration, callback);
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "JSON parsing error in check: " + e.getMessage());
+                            // If parsing fails, try to insert as new
+                            insertNewMatch(passengerEmail, driverEmail, distance, duration, callback);
+                        }
+                    } else {
+                        // If check fails, try to insert as new
+                        insertNewMatch(passengerEmail, driverEmail, distance, duration, callback);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Error in saveMatch: " + e.getMessage());
+            callback.onError("Error saving match: " + e.getMessage());
+        }
+    }
+
+    // Helper method to insert a new match
+    private void insertNewMatch(String passengerEmail, String driverEmail, double distance, int duration, UserUpdateCallback callback) {
         try {
             JSONObject json = new JSONObject();
             json.put("passenger_email", passengerEmail);
@@ -337,7 +393,6 @@ public class UserRepository {
             json.put("distance_km", distance);
             json.put("duration_min", duration);
             json.put("status", "pending");
-            json.put("created_at", new java.util.Date().toString());
 
             RequestBody body = RequestBody.create(
                     MediaType.parse("application/json"),
@@ -345,7 +400,7 @@ public class UserRepository {
             );
 
             String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches";
-            Log.d(TAG, "Saving match to: " + url);
+            Log.d(TAG, "Inserting new match to: " + url);
 
             Request request = new Request.Builder()
                     .url(url)
@@ -359,19 +414,227 @@ public class UserRepository {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "Save match failed: " + e.getMessage());
-                    callback.onError("Save match failed: " + e.getMessage());
+                    Log.e(TAG, "Insert new match failed: " + e.getMessage());
+                    callback.onError("Insert match failed: " + e.getMessage());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String responseBody = response.body() != null ? response.body().string() : "No response body";
-                    Log.d(TAG, "Save match response - Code: " + response.code() + ", Body: " + responseBody);
+                    Log.d(TAG, "Insert new match response - Code: " + response.code() + ", Body: " + responseBody);
 
                     if (response.isSuccessful()) {
                         callback.onSuccess();
                     } else {
-                        callback.onError("Save match failed with code: " + response.code());
+                        callback.onError("Insert match failed with code: " + response.code());
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON error in insert: " + e.getMessage());
+            callback.onError("JSON error: " + e.getMessage());
+        }
+    }
+
+    // Helper method to update an existing match
+    private void updateExistingMatch(String matchId, double distance, int duration, UserUpdateCallback callback) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("distance_km", distance);
+            json.put("duration_min", duration);
+
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"),
+                    json.toString()
+            );
+
+            String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches?id=eq." + matchId;
+            Log.d(TAG, "Updating existing match at: " + url);
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .patch(body)
+                    .addHeader("apikey", AuthRepository.API_KEY)
+                    .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Prefer", "return=minimal")
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "Update existing match failed: " + e.getMessage());
+                    callback.onError("Update match failed: " + e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseBody = response.body() != null ? response.body().string() : "No response body";
+                    Log.d(TAG, "Update existing match response - Code: " + response.code() + ", Body: " + responseBody);
+
+                    if (response.isSuccessful()) {
+                        callback.onSuccess();
+                    } else {
+                        callback.onError("Update match failed with code: " + response.code());
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON error in update: " + e.getMessage());
+            callback.onError("JSON error: " + e.getMessage());
+        }
+    }
+
+    // FIXED: getPendingRequests method - removed nested select that was causing HTTP 300 error
+    public void getPendingRequests(String driverEmail, RequestsCallback callback) {
+        // Simple query without complex nested selects
+        String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches?driver_email=eq." + driverEmail + "&status=eq.pending";
+        Log.d(TAG, "Fetching pending requests from: " + url);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("apikey", AuthRepository.API_KEY)
+                .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Network error fetching requests: " + e.getMessage());
+                callback.onError("Network error: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body() != null ? response.body().string() : "No response body";
+                Log.d(TAG, "Requests fetch response - Code: " + response.code() + ", Body: " + responseBody);
+
+                if (response.isSuccessful()) {
+                    try {
+                        JSONArray requestsArray = new JSONArray(responseBody);
+                        List<RideRequest> requests = new ArrayList<>();
+
+                        for (int i = 0; i < requestsArray.length(); i++) {
+                            JSONObject requestJson = requestsArray.getJSONObject(i);
+
+                            RideRequest rideRequest = new RideRequest();
+                            rideRequest.setId(requestJson.getString("id"));
+                            rideRequest.setPassengerEmail(requestJson.getString("passenger_email"));
+                            rideRequest.setDriverEmail(requestJson.getString("driver_email"));
+                            rideRequest.setDistance(requestJson.getDouble("distance_km"));
+                            rideRequest.setDuration(requestJson.getInt("duration_min"));
+                            rideRequest.setStatus(requestJson.getString("status"));
+
+                            if (requestJson.has("created_at") && !requestJson.isNull("created_at")) {
+                                rideRequest.setCreatedAt(requestJson.getString("created_at"));
+                            }
+
+                            // For passenger details, we'll need to make a separate call
+                            // or update the query to use proper joins if supported by Supabase
+                            // For now, we'll set passenger name as email (temporary)
+                            rideRequest.setPassengerName(requestJson.getString("passenger_email"));
+
+                            requests.add(rideRequest);
+                            Log.d(TAG, "Parsed request from: " + rideRequest.getPassengerEmail());
+                        }
+
+                        Log.d(TAG, "Found " + requests.size() + " pending requests");
+
+                        // If we have requests, fetch passenger details for each
+                        if (!requests.isEmpty()) {
+                            fetchPassengerDetails(requests, callback);
+                        } else {
+                            callback.onSuccess(requests);
+                        }
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error: " + e.getMessage());
+                        callback.onError("Error parsing requests data");
+                    }
+                } else {
+                    Log.e(TAG, "HTTP error fetching requests: " + response.code());
+                    callback.onError("HTTP error: " + response.code());
+                }
+            }
+        });
+    }
+
+    // NEW: Helper method to fetch passenger details for requests
+    private void fetchPassengerDetails(List<RideRequest> requests, RequestsCallback callback) {
+        // Create a list to track completed requests
+        List<RideRequest> completedRequests = new ArrayList<>();
+        final int totalRequests = requests.size();
+
+        for (RideRequest request : requests) {
+            getUserByEmail(request.getPassengerEmail(), new UserFetchCallback() {
+                @Override
+                public void onSuccess(User passenger) {
+                    request.setPassengerName(passenger.getName());
+                    request.setPassengerHomeAddress(passenger.getHomeAddress());
+                    request.setPassengerLat(passenger.getLatitude());
+                    request.setPassengerLng(passenger.getLongitude());
+
+                    completedRequests.add(request);
+
+                    // When all requests are processed, return the complete list
+                    if (completedRequests.size() == totalRequests) {
+                        callback.onSuccess(requests);
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e(TAG, "Failed to fetch passenger details: " + error);
+                    completedRequests.add(request);
+
+                    // Continue even if some passenger details fail
+                    if (completedRequests.size() == totalRequests) {
+                        callback.onSuccess(requests);
+                    }
+                }
+            });
+        }
+    }
+
+    public void updateRequestStatus(String requestId, String status, UserUpdateCallback callback) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("status", status);
+
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"),
+                    json.toString()
+            );
+
+            String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches?id=eq." + requestId;
+            Log.d(TAG, "Updating request status at: " + url);
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .patch(body)
+                    .addHeader("apikey", AuthRepository.API_KEY)
+                    .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Prefer", "return=minimal")
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "Update request status failed: " + e.getMessage());
+                    callback.onError("Update failed: " + e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseBody = response.body() != null ? response.body().string() : "No response body";
+                    Log.d(TAG, "Update request status response - Code: " + response.code() + ", Body: " + responseBody);
+
+                    if (response.isSuccessful()) {
+                        callback.onSuccess();
+                    } else {
+                        callback.onError("Update failed with code: " + response.code());
                     }
                 }
             });
@@ -410,6 +673,11 @@ public class UserRepository {
 
     public interface DriversFetchCallback {
         void onSuccess(List<User> drivers);
+        void onError(String error);
+    }
+
+    public interface RequestsCallback {
+        void onSuccess(List<RideRequest> requests);
         void onError(String error);
     }
 }
