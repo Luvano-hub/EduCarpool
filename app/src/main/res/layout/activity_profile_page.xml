@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@color/eduBlue"
     android:padding="24dp"
     android:fillViewport="true">
 
@@ -39,7 +39,7 @@
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="micheal.smith@educampus.ac.za"
+            android:text="micheal.smith@vossie.net"
             android:textSize="14sp"
             android:textColor="@color/gray_200"
             android:layout_marginBottom="24dp" />
@@ -81,7 +81,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_edit"
-                    android:tint="@color/primary" />
+                    android:tint="@color/eduBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                     android:text="Edit Profile"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/eduBlue" />
             </LinearLayout>
 
             <!-- Notifications -->
@@ -104,8 +104,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_notifications"
-                    android:tint="@color/primary" />
+                    android:src="@drawable/ic_notification"
+                    android:tint="@color/eduBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                     android:text="Notifications"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/eduBlue" />
             </LinearLayout>
 
             <!-- Privacy -->
@@ -129,7 +129,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_lock"
-                    android:tint="@color/primary" />
+                    android:tint="@color/eduBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                     android:text="Privacy Settings"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/eduBlue" />
             </LinearLayout>
 
             <!-- Logout -->
@@ -153,7 +153,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_logout"
-                    android:tint="@color/red" />
+                    android:tint="@color/eduBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
                     android:text="Logout"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/eduBlue" />
             </LinearLayout>
         </LinearLayout>
 

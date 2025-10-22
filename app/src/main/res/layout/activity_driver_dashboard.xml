@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@color/eduBlue">
 
     <!-- Toolbar -->
     <LinearLayout
@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:background="@color/white"
         android:elevation="4dp">
 
         <TextView
@@ -20,7 +19,7 @@
             android:layout_weight="1"
             android:text="Driver Dashboard"
             android:textSize="20sp"
-            android:textColor="@color/primary"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <Button
@@ -28,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logout"
-            android:textColor="@color/primary" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -38,7 +37,7 @@
         android:layout_height="match_parent"
         android:text="Driver Dashboard - Coming Soon"
         android:textSize="18sp"
-        android:textColor="@color/gray_600"
+        android:textColor="@color/white"
         android:gravity="center" />
 
 </LinearLayout>

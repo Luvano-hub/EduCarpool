@@ -14,13 +14,16 @@
         android:background="@drawable/bg_message_received"
         android:layout_gravity="start">
 
+
         <TextView
             android:id="@+id/tv_message_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello, is anyone going to EduCampus today?"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            />
+
 
         <TextView
             android:id="@+id/tv_message_time"

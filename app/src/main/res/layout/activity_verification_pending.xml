@@ -14,7 +14,7 @@
         android:layout_height="120dp"
         android:src="@drawable/ic_verification"
         android:layout_marginBottom="32dp"
-        app:tint="@color/primary" />
+        app:tint="@color/eduBlue" />
 
     <!-- Title -->
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Verification Pending"
         android:textSize="24sp"
-        android:textColor="@color/primary"
+        android:textColor="@color/eduBlue"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
@@ -46,6 +46,6 @@
         android:textSize="16sp"
         android:padding="16dp"
         app:cornerRadius="12dp"
-        app:backgroundTint="@color/primary" />
+        app:backgroundTint="@color/eduBlue" />
 
 </LinearLayout>

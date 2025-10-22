@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A192F"
+    android:background="@color/eduBlue"
     android:padding="24dp">
 
     <LinearLayout
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            app:cardBackgroundColor="#112240"
+            app:cardBackgroundColor="@color/eduBlue"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
@@ -149,8 +149,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Confirm Payment"
-            android:backgroundTint="#64FFDA"
-            android:textColor="#0A192F"
+            android:backgroundTint="@color/white"
+            android:textColor="#primary"
             android:textStyle="bold"
             android:padding="12dp"
             android:layout_marginTop="8dp"
