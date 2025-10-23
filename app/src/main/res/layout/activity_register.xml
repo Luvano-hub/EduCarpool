@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/eduBlue"
     android:padding="24dp"
     android:fillViewport="true">
 
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Create Account"
             android:textSize="28sp"
-            android:textColor="@color/primary"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Join EduCarpool today"
             android:textSize="16sp"
-            android:textColor="@color/gray_600"
+            android:textColor="@color/white"
             android:layout_marginBottom="32dp" />
 
         <!-- Name Input -->
@@ -35,6 +35,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white_input_stroke"
+            app:hintTextColor="@color/white_input_stroke"
+            app:boxStrokeWidthFocused="2dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -55,6 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white_input_stroke"
+            app:hintTextColor="@color/white_input_stroke"
+            app:boxStrokeWidthFocused="2dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -75,6 +83,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white_input_stroke"
+            app:hintTextColor="@color/white_input_stroke"
+            app:boxStrokeWidthFocused="2dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -95,6 +107,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white_input_stroke"
+            app:hintTextColor="@color/white_input_stroke"
+            app:boxStrokeWidthFocused="2dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -115,6 +131,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white_input_stroke"
+            app:hintTextColor="@color/white_input_stroke"
+            app:boxStrokeWidthFocused="2dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -135,6 +155,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/white_input_stroke"
+            app:hintTextColor="@color/white_input_stroke"
+            app:boxStrokeWidthFocused="2dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -156,7 +180,7 @@
             android:layout_height="wrap_content"
             android:text="@string/select_role"
             android:textSize="16sp"
-            android:textColor="@color/gray_700"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
@@ -167,23 +191,28 @@
             android:orientation="horizontal"
             android:layout_marginBottom="24dp">
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rb_passenger"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/passenger"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                app:buttonTint="@color/white_radio_selector" />
 
-            <RadioButton
+            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/rb_driver"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/driver"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                app:buttonTint="@color/white_radio_selector" />
 
         </RadioGroup>
+
 
         <!-- Driver Specific Fields -->
         <LinearLayout
@@ -311,10 +340,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register"
+            android:textColor="@color/primary"
             android:textSize="16sp"
             android:padding="16dp"
             app:cornerRadius="12dp"
-            app:backgroundTint="@color/primary"
+            app:backgroundTint="@color/white"
             android:layout_marginBottom="24dp" />
 
         <!-- Login Link -->

@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <!-- Message bubble -->
+    <LinearLayout
+        android:id="@+id/message_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="@drawable/bg_message_received"
+        android:layout_gravity="start">
+
+
+        <TextView
+            android:id="@+id/tv_message_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello, is anyone going to EduCampus today?"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08:15 AM"
+            android:textColor="@color/gray_300"
+            android:textSize="10sp"
+            android:layout_gravity="end"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+</LinearLayout>
