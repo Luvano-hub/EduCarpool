@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/eduBlue"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Page Title -->
+        <TextView
+            android:id="@+id/paymentTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Payment"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Ride Summary Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/eduBlue"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:text="Ride Summary"
+                    android:textColor="#64FFDA"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:text="Pickup: Eduvos Campus"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:text="Destination: Sunnyside"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:text="Price: R45.00"
+                    android:textColor="#64FFDA"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Payment Method Selection -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Payment Method"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginBottom="12dp"/>
+
+        <RadioGroup
+            android:id="@+id/paymentMethods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="24dp">
+
+            <RadioButton
+                android:id="@+id/radio_cash"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cash"
+                android:textColor="@android:color/white"/>
+
+            <RadioButton
+                android:id="@+id/radio_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Debit / Credit Card"
+                android:textColor="@android:color/white"/>
+
+            <RadioButton
+                android:id="@+id/radio_wallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In-App Wallet"
+                android:textColor="@android:color/white"/>
+        </RadioGroup>
+
+        <!-- Payment Details Section -->
+        <EditText
+            android:id="@+id/cardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            android:textColorHint="#A8B2D1"
+            android:textColor="@android:color/white"
+            android:inputType="number"
+            android:backgroundTint="#FFFFFF"
+            android:layout_marginBottom="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:id="@+id/expiryDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="MM/YY"
+                android:textColorHint="#A8B2D1"
+                android:textColor="@android:color/white"
+                android:inputType="number"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginEnd="8dp"/>
+
+            <EditText
+                android:id="@+id/cvv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="CVV"
+                android:textColorHint="#A8B2D1"
+                android:textColor="@android:color/white"
+                android:inputType="numberPassword"
+                android:backgroundTint="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Confirm Payment Button -->
+        <Button
+            android:id="@+id/confirmPaymentBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm Payment"
+            android:backgroundTint="@color/white"
+            android:textColor="#primary"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"/>
+    </LinearLayout>
+</ScrollView>

@@ -12,6 +12,8 @@
     <color name="primary_light">#7209B7</color>
     <color name="secondary">#4CC9F0</color>
     <color name="accent">#F72585</color>
+    <color name="eduBlue">#0084FF</color>
+
 
     <!-- Neutral Colors -->
     <color name="black">#FF000000</color>
