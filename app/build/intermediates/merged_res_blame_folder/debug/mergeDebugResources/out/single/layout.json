@@ -1,0 +1,78 @@
+[
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/item_request.xml",
+        "source": "com.educarpool.app-main-46:/layout/item_request.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_chat.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_chat.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_verification_pending.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_verification_pending.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/nav_header_passenger.xml",
+        "source": "com.educarpool.app-main-46:/layout/nav_header_passenger.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_admin_dashboard.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_admin_dashboard.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_passenger_dashboard.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_passenger_dashboard.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_agreement_panel.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_agreement_panel.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/item_match.xml",
+        "source": "com.educarpool.app-main-46:/layout/item_match.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_main.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/item_message_sent.xml",
+        "source": "com.educarpool.app-main-46:/layout/item_message_sent.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_register.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/dialog_update_profile.xml",
+        "source": "com.educarpool.app-main-46:/layout/dialog_update_profile.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/item_pending_driver.xml",
+        "source": "com.educarpool.app-main-46:/layout/item_pending_driver.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_carpool_matches.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_carpool_matches.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_driver_dashboard.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_driver_dashboard.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/item_message_received.xml",
+        "source": "com.educarpool.app-main-46:/layout/item_message_received.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/activity_login.xml",
+        "source": "com.educarpool.app-main-46:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/dialog_edit_address.xml",
+        "source": "com.educarpool.app-main-46:/layout/dialog_edit_address.xml"
+    },
+    {
+        "merged": "com.educarpool.app-mergeDebugResources-43:/layout/item_driver.xml",
+        "source": "com.educarpool.app-main-46:/layout/item_driver.xml"
+    }
+]

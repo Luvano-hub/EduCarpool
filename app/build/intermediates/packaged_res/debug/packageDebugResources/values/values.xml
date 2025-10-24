@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#F72585</color>
+    <color name="background">#FAFAFA</color>
+    <color name="black">#FF000000</color>
+    <color name="error">#F44336</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_50">#FAFAFA</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
+    <color name="green">#4CAF50</color>
+    <color name="info">#2196F3</color>
+    <color name="light_blue">#E3F2FD</color>
+    <color name="light_green">#E8F5E8</color>
+    <color name="on_surface">#212121</color>
+    <color name="orange">#FF9800</color>
+    <color name="primary">#4361EE</color>
+    <color name="primary_dark">#3A56D4</color>
+    <color name="primary_light">#7209B7</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="red">#F44336</color>
+    <color name="secondary">#4CC9F0</color>
+    <color name="success">#4CAF50</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="warning">#FF9800</color>
+    <color name="warning_light">#FFF3E0</color>
+    <color name="white">#FFFFFFFF</color>
+    <integer name="google_play_services_version">12451000</integer>
+    <string name="accept">Accept</string>
+    <string name="address_required">Home address is required</string>
+    <string name="admin_verification">Your documents are under admin verification. You\'ll be notified once verified.</string>
+    <string name="agreement_accepted">Agreement accepted!</string>
+    <string name="agreement_proposed_success">Agreement proposed successfully</string>
+    <string name="agreement_rejected">Agreement rejected</string>
+    <string name="already_have_account">Already have an account? Login</string>
+    <string name="app_name">EduCarpool</string>
+    <string name="car_registration">Car Registration</string>
+    <string name="continue_text">Continue</string>
+    <string name="deny">Deny</string>
+    <string name="detour_range">Detour Range (km)</string>
+    <string name="driver">Driver</string>
+    <string name="driver_dashboard">Driver Dashboard</string>
+    <string name="drivers_license">Driver\'s License</string>
+    <string name="email">Email</string>
+    <string name="email_required">Email is required</string>
+    <string name="enter_valid_price">Please enter a valid price</string>
+    <string name="fill_required_fields">Please fill in all required fields</string>
+    <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY</string>
+    <string name="home_address">Home Address</string>
+    <string name="invalid_email">Please enter a valid @vossie.net email</string>
+    <string name="license_required">Driver\'s license is required</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="messages">Messages</string>
+    <string name="name">Full Name</string>
+    <string name="name_required">Name is required</string>
+    <string name="nearby_drivers">Nearby Drivers</string>
+    <string name="no_account">Don\'t have an account? Register</string>
+    <string name="passenger">Passenger</string>
+    <string name="passenger_dashboard">Passenger Dashboard</string>
+    <string name="password">Password</string>
+    <string name="password_required">Password is required</string>
+    <string name="phone">Phone Number</string>
+    <string name="phone_required">Phone number is required</string>
+    <string name="refresh">Refresh</string>
+    <string name="register">Register</string>
+    <string name="registration_required">Car registration is required</string>
+    <string name="ride_requests">Ride Requests</string>
+    <string name="role_required">Please select a role</string>
+    <string name="select_at_least_one_day">Please select at least one day</string>
+    <string name="select_role">Select Your Role</string>
+    <string name="send_request">Send Request</string>
+    <string name="student_id">Student ID</string>
+    <string name="student_id_required">Student ID is required</string>
+    <string name="supabase_anon_key">YOUR_SUPABASE_ANON_KEY</string>
+    <string name="supabase_url">YOUR_SUPABASE_PROJECT_URL</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="verification_pending">Verification Pending</string>
+    <string name="welcome">Welcome to EduCarpool</string>
+    <style name="Base.Theme.EduCarpool" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Material3.TitleMedium</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Material3.BodyMedium</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Material3.LabelMedium</item>
+    </style>
+    <style name="BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+    </style>
+    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">8dp</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.BottomSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">32dp</item>
+        <item name="cornerSizeTopRight">32dp</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.CornerSize50Percent" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="Theme.EduCarpool" parent="Base.Theme.EduCarpool"/>
+</resources>

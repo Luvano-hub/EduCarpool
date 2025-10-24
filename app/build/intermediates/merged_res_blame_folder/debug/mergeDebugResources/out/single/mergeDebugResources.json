@@ -1,0 +1,286 @@
+[
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_admin_dashboard.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_admin_dashboard.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_menu.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_menu.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_item_message_received.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/item_message_received.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/xml_backup_rules.xml.flat",
+        "source": "com.educarpool.app-main-46:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_group.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_group.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_verification_pending.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_verification_pending.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_passenger_dashboard.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_passenger_dashboard.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_check.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_chat_placeholder.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_chat_placeholder.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_star.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_star.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_login.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_driver_empty.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_driver_empty.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_close.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_agreement_panel.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_agreement_panel.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_person.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_person.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_item_driver.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/item_driver.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_call.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_call.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_shield.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_shield.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_nav_header_passenger.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/nav_header_passenger.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_driver_dashboard.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_driver_dashboard.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/xml_file_paths.xml.flat",
+        "source": "com.educarpool.app-main-46:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_no_address_message.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_no_address_message.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_dialog_edit_address.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/dialog_edit_address.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_dialog_update_profile.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/dialog_update_profile.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_support.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_support.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_bottom_sheet.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_bottom_sheet.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_notification.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_school.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_school.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_history.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_history.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_item_request.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/item_request.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_avatar_modern.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_avatar_modern.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_handshake.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_handshake.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_edit.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_edit.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_rounded_edittext.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_rounded_edittext.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_chat.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_chat.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_info.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_info.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_bottom_sheet_modern.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_bottom_sheet_modern.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_logout.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_logout.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_verification.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_verification.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/xml_data_extraction_rules.xml.flat",
+        "source": "com.educarpool.app-main-46:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_circle.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_circle.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_circle_primary_light.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_circle_primary_light.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/menu_nav_menu_passenger.xml.flat",
+        "source": "com.educarpool.app-main-46:/menu/nav_menu_passenger.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_home.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_register.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_carpool_matches.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_carpool_matches.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_nav_item_background.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/nav_item_background.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_arrow_back.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_arrow_back.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_verified.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_verified.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_item_match.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/item_match.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_item_message_sent.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/item_message_sent.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_bg_circle_white.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/bg_circle_white.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_activity_main.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_refresh.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_refresh.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/layout_item_pending_driver.xml.flat",
+        "source": "com.educarpool.app-main-46:/layout/item_pending_driver.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.educarpool.app-main-46:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/drawable_ic_send.xml.flat",
+        "source": "com.educarpool.app-main-46:/drawable/ic_send.xml"
+    },
+    {
+        "merged": "com.educarpool.app-debug-44:/color_nav_item_color.xml.flat",
+        "source": "com.educarpool.app-main-46:/color/nav_item_color.xml"
+    }
+]
