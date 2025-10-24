@@ -27,6 +27,10 @@
     <color name="gray_800">#424242</color>
     <color name="gray_900">#212121</color>
 
+
+    <color name="warning_light">#FFF3E0</color>
+
+
     <!-- Semantic Colors -->
     <color name="success">#4CAF50</color>
     <color name="warning">#FF9800</color>
@@ -37,4 +41,13 @@
     <color name="background">#FAFAFA</color>
     <color name="surface">#FFFFFF</color>
     <color name="on_surface">#212121</color>
+
+    <color name="light_blue">#E3F2FD</color>
+
+    <!-- Agreement  -->
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
+    <color name="orange">#FF9800</color>
+    <color name="light_green">#E8F5E8</color>
+
 </resources>

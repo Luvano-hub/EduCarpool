@@ -644,6 +644,183 @@ public class UserRepository {
         }
     }
 
+    // NEW: Get accepted matches for a user (both as passenger and driver)
+    public void getAcceptedMatches(String userEmail, AcceptedMatchesCallback callback) {
+        String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches?or=(passenger_email.eq." + userEmail + ",driver_email.eq." + userEmail + ")&status=eq.accepted";
+        Log.d(TAG, "Fetching accepted matches from: " + url);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("apikey", AuthRepository.API_KEY)
+                .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Network error fetching accepted matches: " + e.getMessage());
+                callback.onError("Network error: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body() != null ? response.body().string() : "No response body";
+                Log.d(TAG, "Accepted matches response - Code: " + response.code() + ", Body: " + responseBody);
+
+                if (response.isSuccessful()) {
+                    try {
+                        JSONArray matchesArray = new JSONArray(responseBody);
+                        List<AcceptedMatch> acceptedMatches = new ArrayList<>();
+
+                        for (int i = 0; i < matchesArray.length(); i++) {
+                            JSONObject matchJson = matchesArray.getJSONObject(i);
+
+                            AcceptedMatch match = new AcceptedMatch();
+                            match.setId(matchJson.getString("id"));
+                            match.setPassengerEmail(matchJson.getString("passenger_email"));
+                            match.setDriverEmail(matchJson.getString("driver_email"));
+                            match.setDistance(matchJson.getDouble("distance_km"));
+                            match.setDuration(matchJson.getInt("duration_min"));
+                            match.setStatus(matchJson.getString("status"));
+
+                            if (matchJson.has("created_at") && !matchJson.isNull("created_at")) {
+                                match.setCreatedAt(matchJson.getString("created_at"));
+                            }
+
+                            acceptedMatches.add(match);
+                        }
+
+                        Log.d(TAG, "Found " + acceptedMatches.size() + " accepted matches");
+                        callback.onSuccess(acceptedMatches);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error: " + e.getMessage());
+                        callback.onError("Error parsing accepted matches data");
+                    }
+                } else {
+                    callback.onError("HTTP error: " + response.code());
+                }
+            }
+        });
+    }
+
+    // NEW: Get messages for a specific match
+    public void getMessages(String matchId, MessagesCallback callback) {
+        String url = AuthRepository.SUPABASE_URL + "/rest/v1/messages?match_id=eq." + matchId + "&order=timestamp.asc";
+        Log.d(TAG, "Fetching messages from: " + url);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .addHeader("apikey", AuthRepository.API_KEY)
+                .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Network error fetching messages: " + e.getMessage());
+                callback.onError("Network error: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body() != null ? response.body().string() : "No response body";
+                Log.d(TAG, "Messages response - Code: " + response.code() + ", Body: " + responseBody);
+
+                if (response.isSuccessful()) {
+                    try {
+                        JSONArray messagesArray = new JSONArray(responseBody);
+                        List<Message> messages = new ArrayList<>();
+
+                        for (int i = 0; i < messagesArray.length(); i++) {
+                            JSONObject messageJson = messagesArray.getJSONObject(i);
+
+                            Message message = new Message();
+                            message.setId(messageJson.getString("id"));
+                            message.setMatchId(messageJson.getString("match_id"));
+                            message.setSenderId(messageJson.getString("sender_id"));
+                            message.setReceiverId(messageJson.getString("receiver_id"));
+                            message.setMessageText(messageJson.getString("message_text"));
+
+                            if (messageJson.has("timestamp") && !messageJson.isNull("timestamp")) {
+                                message.setTimestamp(messageJson.getString("timestamp"));
+                            }
+                            if (messageJson.has("is_read") && !messageJson.isNull("is_read")) {
+                                message.setRead(messageJson.getBoolean("is_read"));
+                            }
+
+                            messages.add(message);
+                        }
+
+                        Log.d(TAG, "Found " + messages.size() + " messages for match: " + matchId);
+                        callback.onSuccess(messages);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "JSON parsing error: " + e.getMessage());
+                        callback.onError("Error parsing messages data");
+                    }
+                } else {
+                    callback.onError("HTTP error: " + response.code());
+                }
+            }
+        });
+    }
+
+    // NEW: Send a new message
+    public void sendMessage(String matchId, String senderId, String receiverId, String messageText, UserUpdateCallback callback) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("match_id", matchId);
+            json.put("sender_id", senderId);
+            json.put("receiver_id", receiverId);
+            json.put("message_text", messageText);
+            json.put("timestamp", new java.util.Date().toString());
+            json.put("is_read", false);
+
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json"),
+                    json.toString()
+            );
+
+            String url = AuthRepository.SUPABASE_URL + "/rest/v1/messages";
+            Log.d(TAG, "Sending message to: " + url);
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .addHeader("apikey", AuthRepository.API_KEY)
+                    .addHeader("Authorization", "Bearer " + AuthRepository.API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Prefer", "return=minimal")
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "Send message failed: " + e.getMessage());
+                    callback.onError("Send message failed: " + e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseBody = response.body() != null ? response.body().string() : "No response body";
+                    Log.d(TAG, "Send message response - Code: " + response.code() + ", Body: " + responseBody);
+
+                    if (response.isSuccessful()) {
+                        callback.onSuccess();
+                    } else {
+                        callback.onError("Send message failed with code: " + response.code());
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "JSON error: " + e.getMessage());
+            callback.onError("JSON error: " + e.getMessage());
+        }
+    }
+
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -678,6 +855,17 @@ public class UserRepository {
 
     public interface RequestsCallback {
         void onSuccess(List<RideRequest> requests);
+        void onError(String error);
+    }
+
+    // NEW: Add these interfaces to UserRepository
+    public interface AcceptedMatchesCallback {
+        void onSuccess(List<AcceptedMatch> matches);
+        void onError(String error);
+    }
+
+    public interface MessagesCallback {
+        void onSuccess(List<Message> messages);
         void onError(String error);
     }
 }

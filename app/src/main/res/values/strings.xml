@@ -50,6 +50,15 @@
     <string name="messages">Messages</string>
     <string name="logout">Logout</string>
 
+
+    <!-- Agreement Strings  -->
+    <string name="agreement_proposed_success">Agreement proposed successfully</string>
+    <string name="agreement_accepted">Agreement accepted!</string>
+    <string name="agreement_rejected">Agreement rejected</string>
+    <string name="fill_required_fields">Please fill in all required fields</string>
+    <string name="select_at_least_one_day">Please select at least one day</string>
+    <string name="enter_valid_price">Please enter a valid price</string>
+
     <!-- Google Maps Key - Replace with your actual key -->
     <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY</string>
 

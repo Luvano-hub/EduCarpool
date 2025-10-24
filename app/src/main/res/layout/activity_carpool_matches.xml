@@ -1,117 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
-    tools:context=".CarpoolMatchesActivity">
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
-    <!-- Toolbar -->
-    <LinearLayout
+    <!-- Header -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/primary"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:elevation="0dp"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/primary">
 
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="Back"
-            app:tint="@color/white" />
-
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Carpool Matches"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center" />
+            android:orientation="horizontal"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="12dp"
+            android:gravity="center_vertical">
 
-        <!-- Spacer for balance -->
-        <View
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            <!-- Back Button -->
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_arrow_back"
+                android:contentDescription="Back"
+                app:tint="@color/white" />
 
-    </LinearLayout>
+            <!-- Title  -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="Carpool Matches"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
-    <!-- Coming Soon Content -->
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Empty State -->
     <LinearLayout
+        android:id="@+id/tv_empty_state"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="32dp">
+        android:padding="48dp"
+        android:visibility="gone">
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_group"
-            android:contentDescription="Carpool Matches"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_chat_placeholder"
+            android:contentDescription="No matches"
             app:tint="@color/gray_400" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Carpool Matches"
+            android:text="No Active Matches"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             android:textColor="@color/gray_800"
-            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="This feature is coming soon! Here you'll be able to view and message your matched drivers, see your ride history, and manage your current carpool arrangements."
-            android:textColor="@color/gray_600"
-            android:textSize="16sp"
-            android:lineSpacingExtra="4dp"
-            android:textAlignment="center" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/primary_light"
-            app:contentPadding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="What to Expect"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="• Real-time driver matching\n• In-app messaging\n• Ride history\n• Driver ratings and reviews"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:lineSpacingExtra="4dp" />
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Once a driver accepts your request, you'll be able to chat here!"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/gray_600" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back_to_dashboard"
@@ -119,12 +89,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Back to Dashboard"
-            android:textSize="16sp"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="12dp"
-            app:cornerRadius="20dp"
-            app:backgroundTint="@color/primary" />
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:backgroundTint="@color/primary"
+            app:cornerRadius="24dp" />
 
     </LinearLayout>
+
+    <!-- Matches List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_matches"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:visibility="visible" />
 
 </LinearLayout>

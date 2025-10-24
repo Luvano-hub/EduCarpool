@@ -128,6 +128,142 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Detour Information Card  -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_detour_info"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="220dp"
+            android:layout_gravity="bottom|start"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="12dp"
+            app:cardBackgroundColor="@color/warning_light">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="Info"
+                    app:tint="@color/warning" />
+
+                <TextView
+                    android:id="@+id/tv_detour_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Detour info"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="@color/gray_800" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Route Information Card  -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_route_info"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="120dp"
+            android:layout_gravity="bottom|start"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="12dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Route Info"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="@color/gray_600"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="8dp"
+                    android:background="@color/gray_300" />
+
+                <TextView
+                    android:id="@+id/tv_route_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Distance: 0.0 km"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/gray_800" />
+
+                <TextView
+                    android:id="@+id/tv_route_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Duration: 0 min"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/gray_800" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Action Buttons Container  -->
+        <LinearLayout
+            android:id="@+id/container_route_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="120dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:padding="8dp">
+
+            <!-- Show Full Route Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_campus_route"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginBottom="12dp"
+                android:text="Show Full Route"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                app:cornerRadius="24dp"
+                app:backgroundTint="@color/primary"
+                app:icon="@drawable/ic_school"
+                app:iconGravity="textStart" />
+
+            <!-- Reset Map Button  -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reset_map"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="Reset Map"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                app:cornerRadius="24dp"
+                app:backgroundTint="@color/gray_600"
+                app:icon="@drawable/ic_refresh"
+                app:iconGravity="textStart" />
+
+        </LinearLayout>
+
         <!-- Bottom Sheet for Ride Requests -->
         <LinearLayout
             android:id="@+id/bottom_sheet"
@@ -138,7 +274,7 @@
             android:background="@drawable/bg_bottom_sheet_modern"
             android:elevation="24dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            app:behavior_peekHeight="120dp"
+            app:behavior_peekHeight="80dp"
             app:behavior_halfExpandedRatio="0.5"
             app:behavior_fitToContents="false">
 

@@ -71,9 +71,29 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
-
     // For API calls
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // Google Maps Utils for polyline decoding and other utilities
+    implementation("com.google.maps.android:android-maps-utils:3.4.0")
+
+    // WorkManager for background tasks (for agreement reminders)
+    implementation("androidx.work:work-runtime:2.8.1")
+
+    // AlarmManager compatibility (for scheduling reminders)
+    implementation("androidx.core:core:1.12.0")
+
+    // Notification compatibility
+    implementation("androidx.core:core-ktx:1.12.0")
+
+    // For handling permissions more easily
+    implementation("com.karumi:dexter:6.2.3")
+
+    // For image loading (user profiles)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // For better date/time handling
+    implementation("joda-time:joda-time:2.12.5")
 }

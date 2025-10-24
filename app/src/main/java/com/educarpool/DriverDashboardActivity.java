@@ -2,6 +2,7 @@ package com.educarpool;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,9 +27,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,6 +49,7 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
     private ImageButton btnEdit, btnRefresh, btnMenu;
     private UserRepository userRepository;
     private GeocodingService geocodingService;
+    private DirectionsService directionsService;
     private String userEmail;
     private boolean isMapReady = false;
     private boolean isUserDataLoaded = false;
@@ -61,6 +68,19 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
     private com.google.android.material.bottomsheet.BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
     private RequestAdapter requestAdapter;
 
+    // NEW: Route visualization variables
+    private Polyline currentRoutePolyline;
+    private Marker driverMarker, passengerMarker, campusMarker;
+    private CardView cardRouteInfo, cardDetourInfo;
+    private TextView tvRouteDistance, tvRouteDuration, tvDetourInfo;
+    private MaterialButton btnAddCampusRoute, btnResetMap;
+    private LinearLayout containerRouteButtons;
+    private RideRequest currentSelectedRequest;
+    private RouteResult currentRouteResult;
+
+    // Campus coordinates
+    private final LatLng CAMPUS_LOCATION = new LatLng(-26.174109927263547, 28.1281171423283);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +88,7 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
 
         userRepository = new UserRepository();
         geocodingService = new GeocodingService();
+        directionsService = new DirectionsService();
 
         // Get user email from intent (passed from LoginActivity)
         userEmail = getIntent().getStringExtra("user_email");
@@ -120,6 +141,16 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         bottomSheet = findViewById(R.id.bottom_sheet);
         recyclerRequests = findViewById(R.id.recycler_requests);
         layoutEmpty = findViewById(R.id.layout_empty);
+
+        // NEW: Route visualization views
+        cardRouteInfo = findViewById(R.id.card_route_info);
+        cardDetourInfo = findViewById(R.id.card_detour_info);
+        tvRouteDistance = findViewById(R.id.tv_route_distance);
+        tvRouteDuration = findViewById(R.id.tv_route_duration);
+        tvDetourInfo = findViewById(R.id.tv_detour_info);
+        btnAddCampusRoute = findViewById(R.id.btn_add_campus_route);
+        btnResetMap = findViewById(R.id.btn_reset_map);
+        containerRouteButtons = findViewById(R.id.container_route_buttons);
     }
 
     private void setupNavigationDrawer() {
@@ -132,6 +163,16 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
     private void setupClickListeners() {
         btnEdit.setOnClickListener(v -> showEditAddressDialog());
         btnRefresh.setOnClickListener(v -> refreshLocation());
+
+        // NEW: Route control buttons
+        btnAddCampusRoute.setOnClickListener(v -> {
+            Log.d("DriverDashboard", "Show Full Route button clicked");
+            addCampusRoute();
+        });
+        btnResetMap.setOnClickListener(v -> {
+            Log.d("DriverDashboard", "Reset Map button clicked");
+            resetMapView();
+        });
     }
 
     private void setupMap() {
@@ -385,6 +426,9 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
 
             // Re-geocode the current address
             geocodeAddressAndUpdateUser(currentUser.getHomeAddress(), userEmail, true);
+
+            // Reset map view when refreshing location
+            resetMapView();
         } else {
             Toast.makeText(this, "No address to refresh", Toast.LENGTH_SHORT).show();
         }
@@ -444,8 +488,9 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         if (mMap != null) {
             LatLng location = new LatLng(latitude, longitude);
 
-            // Clear existing markers
-            mMap.clear();
+            // Clear existing markers and routes when recentering
+            clearMapRoutes();
+            hideRouteUI();
 
             // Add marker
             mMap.addMarker(new MarkerOptions()
@@ -493,8 +538,8 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         int itemId = item.getItemId();
 
         if (itemId == R.id.nav_carpool_matches) {
-            // Navigate to CarpoolMatchesActivity
-            Intent intent = new Intent(DriverDashboardActivity.this, CarpoolMatchesActivity.class);
+            Intent intent = new Intent(this, CarpoolMatchesActivity.class);
+            intent.putExtra("user_email", userEmail);
             startActivity(intent);
         } else if (itemId == R.id.nav_safety) {
             Toast.makeText(this, "Safety Guidelines - Coming Soon", Toast.LENGTH_SHORT).show();
@@ -530,7 +575,7 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         }
     }
 
-    // New methods for request functionality
+    // Enhanced methods for route visualization
     private void setupDriverDashboard() {
         setupBottomSheet();
         setupRequestList();
@@ -557,7 +602,7 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED:
-                        Log.d("DriverBottomSheet", "Collapsed");
+                        Log.d("DriverBottomSheet", "Collapsed - Height: " + bottomSheet.getHeight());
                         break;
                     case com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EXPANDED:
                         Log.d("DriverBottomSheet", "Half Expanded");
@@ -588,7 +633,7 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onShowOnMap(RideRequest request) {
-                showPassengerOnMap(request);
+                showRouteToPassenger(request);
             }
         });
 
@@ -672,6 +717,9 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
 
                     // Remove the request from the list
                     loadPendingRequests();
+
+                    // Reset map view
+                    resetMapView();
                 });
             }
 
@@ -701,6 +749,9 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
 
                     // Remove the request from the list
                     loadPendingRequests();
+
+                    // Reset map view
+                    resetMapView();
                 });
             }
 
@@ -716,41 +767,252 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         });
     }
 
-    private void showPassengerOnMap(RideRequest request) {
-        if (request.getPassengerLat() != null && request.getPassengerLng() != null) {
-            LatLng passengerLocation = new LatLng(request.getPassengerLat(), request.getPassengerLng());
-
-            if (mMap != null) {
-                mMap.clear();
-
-                // Add marker for passenger
-                mMap.addMarker(new MarkerOptions()
-                        .position(passengerLocation)
-                        .title(request.getPassengerName())
-                        .snippet(request.getPassengerHomeAddress()));
-
-                // Add marker for driver (current location)
-                if (currentUser != null && currentUser.hasCoordinates()) {
-                    LatLng driverLocation = new LatLng(currentUser.getLatitude(), currentUser.getLongitude());
-                    mMap.addMarker(new MarkerOptions()
-                            .position(driverLocation)
-                            .title("Your Location")
-                            .icon(com.google.android.gms.maps.model.BitmapDescriptorFactory.defaultMarker(com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE)));
-                }
-
-                // Zoom to show both markers
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                builder.include(passengerLocation);
-                if (currentUser != null && currentUser.hasCoordinates()) {
-                    builder.include(new LatLng(currentUser.getLatitude(), currentUser.getLongitude()));
-                }
-                LatLngBounds bounds = builder.build();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-
-                Toast.makeText(this, "Showing " + request.getPassengerName() + "'s location", Toast.LENGTH_SHORT).show();
-            }
-        } else {
+    // Enhanced method to show route to passenger
+    private void showRouteToPassenger(RideRequest request) {
+        if (request.getPassengerLat() == null || request.getPassengerLng() == null) {
             Toast.makeText(this, "Passenger location not available", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        if (currentUser == null || !currentUser.hasCoordinates()) {
+            Toast.makeText(this, "Your location is not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        currentSelectedRequest = request;
+
+        // Clear existing map elements
+        clearMapRoutes();
+
+        LatLng driverLocation = new LatLng(currentUser.getLatitude(), currentUser.getLongitude());
+        LatLng passengerLocation = new LatLng(request.getPassengerLat(), request.getPassengerLng());
+
+        // Add markers
+        driverMarker = mMap.addMarker(new MarkerOptions()
+                .position(driverLocation)
+                .title("Your Location")
+                .snippet("Driver")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        passengerMarker = mMap.addMarker(new MarkerOptions()
+                .position(passengerLocation)
+                .title(request.getPassengerName())
+                .snippet("Passenger Pickup")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+        // Get route from driver to passenger
+        directionsService.getRoute(
+                currentUser.getLatitude(), currentUser.getLongitude(),
+                request.getPassengerLat(), request.getPassengerLng(),
+                new DirectionsService.RouteCallback() {
+                    @Override
+                    public void onSuccess(RouteResult routeResult) {
+                        runOnUiThread(() -> {
+                            currentRouteResult = routeResult;
+                            drawRouteOnMap(routeResult.getEncodedPolyline(), Color.BLUE, 10);
+
+                            // Update route info card
+                            tvRouteDistance.setText(String.format("Distance: %.1f km", routeResult.getDistance()));
+                            tvRouteDuration.setText(String.format("Duration: %d min", routeResult.getDuration()));
+                            showRouteUI();
+
+                            // Zoom to fit both markers
+                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                            builder.include(driverLocation);
+                            builder.include(passengerLocation);
+                            LatLngBounds bounds = builder.build();
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
+
+                            Toast.makeText(DriverDashboardActivity.this,
+                                    "Route to " + request.getPassengerName() + " calculated",
+                                    Toast.LENGTH_SHORT).show();
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(DriverDashboardActivity.this,
+                                    "Failed to calculate route: " + error,
+                                    Toast.LENGTH_LONG).show();
+                        });
+                    }
+                });
+    }
+
+    // Add campus route with waypoint - FIXED to properly show 3-stop route
+    private void addCampusRoute() {
+        if (currentSelectedRequest == null || currentUser == null) return;
+
+        LatLng driverLocation = new LatLng(currentUser.getLatitude(), currentUser.getLongitude());
+        LatLng passengerLocation = new LatLng(currentSelectedRequest.getPassengerLat(), currentSelectedRequest.getPassengerLng());
+
+        Log.d("DriverDashboard", "Calculating full route: Driver -> Passenger -> Campus");
+        Toast.makeText(this, "Calculating full route to campus...", Toast.LENGTH_SHORT).show();
+
+        // Use waypoints to create driver -> passenger -> campus route
+        directionsService.getRouteWithWaypoints(
+                currentUser.getLatitude(), currentUser.getLongitude(),
+                currentSelectedRequest.getPassengerLat(), currentSelectedRequest.getPassengerLng(),
+                CAMPUS_LOCATION.latitude, CAMPUS_LOCATION.longitude,
+                new DirectionsService.RouteCallback() {
+                    @Override
+                    public void onSuccess(RouteResult routeResult) {
+                        runOnUiThread(() -> {
+                            Log.d("DriverDashboard", "Full campus route calculated successfully");
+
+                            // Clear previous route and markers
+                            clearMapRoutes();
+
+                            // Add all three markers with different colors
+                            driverMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(driverLocation)
+                                    .title("Your Location")
+                                    .snippet("Driver - Start")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+                            passengerMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(passengerLocation)
+                                    .title(currentSelectedRequest.getPassengerName())
+                                    .snippet("Passenger Pickup - Stop")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+
+                            campusMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(CAMPUS_LOCATION)
+                                    .title("Eduvos Bedfordview Campus")
+                                    .snippet("Destination - End")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+
+                            // Draw the full route in green
+                            drawRouteOnMap(routeResult.getEncodedPolyline(), Color.GREEN, 12);
+
+                            // Calculate detour information
+                            double detourDistance = routeResult.getDistance() - currentRouteResult.getDistance();
+                            int detourDuration = routeResult.getDuration() - currentRouteResult.getDuration();
+
+                            // Update route info with full route details
+                            tvRouteDistance.setText(String.format("Full Distance: %.1f km", routeResult.getDistance()));
+                            tvRouteDuration.setText(String.format("Full Duration: %d min", routeResult.getDuration()));
+
+                            // Update detour info card - positioned above route info
+                            tvDetourInfo.setText(String.format("Full Route: %.1f km, %d min\nDetour adds +%.1f km / +%d min",
+                                    routeResult.getDistance(), routeResult.getDuration(), detourDistance, detourDuration));
+                            cardDetourInfo.setVisibility(View.VISIBLE);
+
+                            // Ensure detour info is above route info
+                            cardDetourInfo.bringToFront();
+
+                            // Hide "Show Full Route" button since it's now shown
+                            btnAddCampusRoute.setVisibility(View.GONE);
+
+                            // Ensure buttons are still accessible
+                            containerRouteButtons.bringToFront();
+
+                            // Zoom to fit all three markers
+                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                            builder.include(driverLocation);
+                            builder.include(passengerLocation);
+                            builder.include(CAMPUS_LOCATION);
+                            LatLngBounds bounds = builder.build();
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 200));
+
+                            Toast.makeText(DriverDashboardActivity.this,
+                                    "Full route calculated: Driver → Passenger → Campus",
+                                    Toast.LENGTH_LONG).show();
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e("DriverDashboard", "Failed to calculate full campus route: " + error);
+                        runOnUiThread(() -> {
+                            Toast.makeText(DriverDashboardActivity.this,
+                                    "Failed to calculate full route: " + error,
+                                    Toast.LENGTH_LONG).show();
+                        });
+                    }
+                });
+    }
+
+    // Draw route polyline on map
+    private void drawRouteOnMap(String encodedPolyline, int color, int width) {
+        if (encodedPolyline != null && mMap != null) {
+            List<LatLng> decodedPath = PolyUtil.decode(encodedPolyline);
+
+            currentRoutePolyline = mMap.addPolyline(new PolylineOptions()
+                    .addAll(decodedPath)
+                    .width(width)
+                    .color(color)
+                    .geodesic(true));
+        }
+    }
+
+    // Clear map routes and markers
+    private void clearMapRoutes() {
+        if (currentRoutePolyline != null) {
+            currentRoutePolyline.remove();
+            currentRoutePolyline = null;
+        }
+        if (driverMarker != null) {
+            driverMarker.remove();
+            driverMarker = null;
+        }
+        if (passengerMarker != null) {
+            passengerMarker.remove();
+            passengerMarker = null;
+        }
+        if (campusMarker != null) {
+            campusMarker.remove();
+            campusMarker = null;
+        }
+
+        mMap.clear();
+    }
+
+    // Show route UI elements
+    private void showRouteUI() {
+        runOnUiThread(() -> {
+            cardRouteInfo.setVisibility(View.VISIBLE);
+            containerRouteButtons.setVisibility(View.VISIBLE);
+            btnAddCampusRoute.setVisibility(View.VISIBLE);
+            btnResetMap.setVisibility(View.VISIBLE);
+
+            // Ensure proper z-order: buttons on top, then route info, then detour info
+            containerRouteButtons.bringToFront();
+            cardRouteInfo.bringToFront();
+            cardDetourInfo.bringToFront();
+
+            Log.d("DriverDashboard", "Route UI shown - All controls should be visible");
+        });
+    }
+
+    // Hide route UI elements
+    private void hideRouteUI() {
+        runOnUiThread(() -> {
+            cardRouteInfo.setVisibility(View.GONE);
+            cardDetourInfo.setVisibility(View.GONE);
+            containerRouteButtons.setVisibility(View.GONE);
+            btnAddCampusRoute.setVisibility(View.GONE);
+            btnResetMap.setVisibility(View.GONE);
+        });
+    }
+
+    // Reset map to default view
+    private void resetMapView() {
+        clearMapRoutes();
+        hideRouteUI();
+
+        currentSelectedRequest = null;
+        currentRouteResult = null;
+
+        // Reset to driver's location
+        if (currentUser != null && currentUser.hasCoordinates()) {
+            centerMapOnLocation(currentUser.getLatitude(), currentUser.getLongitude(), currentUser.getHomeAddress());
+        } else {
+            // Just clear the map if no coordinates
+            mMap.clear();
+        }
+
+        Toast.makeText(this, "Map reset to default view", Toast.LENGTH_SHORT).show();
     }
 }

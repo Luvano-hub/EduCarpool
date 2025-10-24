@@ -713,7 +713,8 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         int itemId = item.getItemId();
 
         if (itemId == R.id.nav_carpool_matches) {
-            Intent intent = new Intent(PassengerDashboardActivity.this, CarpoolMatchesActivity.class);
+            Intent intent = new Intent(this, CarpoolMatchesActivity.class);
+            intent.putExtra("user_email", userEmail);
             startActivity(intent);
         } else if (itemId == R.id.nav_safety) {
             Toast.makeText(this, "Safety Guidelines - Coming Soon", Toast.LENGTH_SHORT).show();

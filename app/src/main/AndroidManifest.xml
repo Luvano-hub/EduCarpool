@@ -17,6 +17,11 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- NEW: Agreement Reminder Permissions -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <!-- Camera feature (not required - app will work without camera) -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
@@ -89,9 +94,20 @@
             android:name=".ChatActivity"
             android:exported="false" />
 
+        <!-- Agreement  -->
+        <activity
+            android:name=".AgreementPanelActivity"
+            android:theme="@style/Theme.EduCarpool" />
+
         <!-- Profile Activity -->
         <activity
             android:name=".ProfileActivity"
+            android:exported="false" />
+
+        <!-- NEW: Agreement Reminder Broadcast Receiver -->
+        <receiver
+            android:name=".AgreementReminderReceiver"
+            android:enabled="true"
             android:exported="false" />
 
         <!-- File Provider for Image Sharing -->
