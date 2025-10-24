@@ -169,7 +169,7 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         showEmptyDriverState();
     }
 
-    // UPDATED: sendRideRequestToDriver with proper button state management
+    // sendRideRequestToDriver with proper button state management
     private void sendRideRequestToDriver(Driver driver) {
         if (currentUser == null) return;
 
@@ -212,7 +212,7 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         );
     }
 
-    // UPDATED: Helper method to update driver button state using public methods
+    // Helper method to update driver button state using public methods
     private void updateDriverButtonState(String driverId, boolean enabled) {
         int position = driverAdapter.findPositionByDriverId(driverId);
         if (position != -1) {
@@ -272,7 +272,7 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         btnFindMatches.setOnClickListener(v -> findDriverMatches());
     }
 
-    // UPDATED: findDriverMatches with button state management
+    // findDriverMatches with button state management
     private void findDriverMatches() {
         if (currentUser == null || !currentUser.hasCoordinates()) {
             Toast.makeText(this, "Please set your home address first", Toast.LENGTH_SHORT).show();
@@ -353,7 +353,7 @@ public class PassengerDashboardActivity extends AppCompatActivity implements OnM
         });
     }
 
-    // UPDATED: saveMatchesToDatabase - now uses the improved saveMatch method
+    // saveMatchesToDatabase - now uses the improved saveMatch method
     private void saveMatchesToDatabase(List<DriverMatch> matches) {
         int totalMatches = matches.size();
         final int[] completedMatches = {0};
