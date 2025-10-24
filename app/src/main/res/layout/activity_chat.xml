@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/background">
+
+<!-- Toolbar -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/primary"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="12dp">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/ivTopAvatar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="6dp"
+        android:src="@drawable/ic_person"
+        android:background="@drawable/bg_avatar_round"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:id="@+id/tvTopName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingStart="12dp"
+        android:text="User Name"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/btnCall"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_call"
+        app:tint="@color/white" />
+</LinearLayout>
+
+<!-- Messages list -->
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rvMessages"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:padding="12dp"
+    android:clipToPadding="false" />
+
+<!-- Input bar -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="8dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:elevation="2dp">
+
+    <ImageButton
+        android:id="@+id/btnHandshake"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_handshake" />
+
+    <EditText
+        android:id="@+id/etMessage"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:hint="Type a message"
+        android:background="@drawable/bg_input"
+        android:paddingHorizontal="12dp" />
+
+    <ImageButton
+        android:id="@+id/btnSend"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_send" />
+</LinearLayout>
+</LinearLayout>

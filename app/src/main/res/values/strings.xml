@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">EduCarpool</string>
+
+    <!-- Common Strings -->
+    <string name="welcome">Welcome to EduCarpool</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="name">Full Name</string>
+    <string name="student_id">Student ID</string>
+    <string name="phone">Phone Number</string>
+    <string name="home_address">Home Address</string>
+    <string name="select_role">Select Your Role</string>
+    <string name="driver">Driver</string>
+    <string name="passenger">Passenger</string>
+    <string name="continue_text">Continue</string> <!-- Changed from 'continue' -->
+    <string name="already_have_account">Already have an account? Login</string>
+    <string name="no_account">Don\'t have an account? Register</string>
+
+    <!-- Registration Strings -->
+    <string name="drivers_license">Driver\'s License</string>
+    <string name="car_registration">Car Registration</string>
+    <string name="detour_range">Detour Range (km)</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="verification_pending">Verification Pending</string>
+    <string name="admin_verification">Your documents are under admin verification. You\'ll be notified once verified.</string>
+
+    <!-- Validation Messages -->
+    <string name="invalid_email">Please enter a valid @vossie.net email</string>
+    <string name="email_required">Email is required</string>
+    <string name="password_required">Password is required</string>
+    <string name="name_required">Name is required</string>
+    <string name="student_id_required">Student ID is required</string>
+    <string name="phone_required">Phone number is required</string>
+    <string name="address_required">Home address is required</string>
+    <string name="role_required">Please select a role</string>
+    <string name="license_required">Driver\'s license is required</string>
+    <string name="registration_required">Car registration is required</string>
+
+    <!-- Dashboard Strings -->
+    <string name="passenger_dashboard">Passenger Dashboard</string>
+    <string name="driver_dashboard">Driver Dashboard</string>
+    <string name="nearby_drivers">Nearby Drivers</string>
+    <string name="ride_requests">Ride Requests</string>
+    <string name="refresh">Refresh</string>
+    <string name="send_request">Send Request</string>
+    <string name="accept">Accept</string>
+    <string name="deny">Deny</string>
+    <string name="messages">Messages</string>
+    <string name="logout">Logout</string>
+
+    <!-- Google Maps Key - Replace with your actual key -->
+    <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY</string>
+
+    <!-- Supabase Configuration -->
+    <string name="supabase_url">YOUR_SUPABASE_PROJECT_URL</string>
+    <string name="supabase_anon_key">YOUR_SUPABASE_ANON_KEY</string>
+</resources>

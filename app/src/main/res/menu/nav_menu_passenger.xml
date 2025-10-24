@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_carpool_matches"
+            android:icon="@drawable/ic_group"
+            android:title="Carpool Matches" />
+
+        <item
+            android:id="@+id/nav_safety"
+            android:icon="@drawable/ic_shield"
+            android:title="Safety Guidelines" />
+
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/ic_support"
+            android:title="Support" />
+
+        <!-- Logout item with different styling -->
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+
+    </group>
+
+</menu>
