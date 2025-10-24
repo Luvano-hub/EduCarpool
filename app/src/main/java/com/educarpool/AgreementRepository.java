@@ -178,7 +178,7 @@ public class AgreementRepository {
         }
     }
 
-    // NEW: Delete agreement when rejected
+    //Delete agreement when rejected
     public void deleteAgreement(String agreementId, UserRepository.UserUpdateCallback callback) {
         String url = AuthRepository.SUPABASE_URL + "/rest/v1/agreements?agreement_id=eq." + agreementId;
         Log.d(TAG, "Deleting agreement at: " + url);
@@ -213,7 +213,7 @@ public class AgreementRepository {
         });
     }
 
-    // NEW: Expire all other agreements when one is accepted
+    // Expire all other agreements when one is accepted
     public void expireOtherAgreements(String matchId, String currentAgreementId, UserRepository.UserUpdateCallback callback) {
         try {
             JSONObject json = new JSONObject();
@@ -261,7 +261,7 @@ public class AgreementRepository {
         }
     }
 
-    // NEW: Send agreement reminder via chat
+    //Send agreement reminder via chat
     public void sendAgreementReminder(String matchId, String userEmail, String otherUserEmail, String reminderType, UserRepository.UserUpdateCallback callback) {
         String messageText;
 
@@ -285,7 +285,7 @@ public class AgreementRepository {
         userRepository.sendMessage(matchId, userEmail, otherUserEmail, messageText, callback);
     }
 
-    // NEW: Get agreements that need reminders
+    //Get agreements that need reminders
     public void getAgreementsNeedingReminders(String userEmail, AgreementsCallback callback) {
         // This would query agreements that are active and have upcoming pickups
         // For now, we'll just get active agreements for the user
@@ -322,7 +322,7 @@ public class AgreementRepository {
         });
     }
 
-    // NEW: Add this helper method to parse agreements array
+    //Add this helper method to parse agreements array
     private List<Agreement> parseAgreementsArray(JSONArray agreementsArray) throws JSONException {
         List<Agreement> agreements = new ArrayList<>();
 

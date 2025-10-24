@@ -485,7 +485,7 @@ public class UserRepository {
         }
     }
 
-    // FIXED: getPendingRequests method - removed nested select that was causing HTTP 300 error
+    // getPendingRequests method - removed nested select that was causing HTTP 300 error
     public void getPendingRequests(String driverEmail, RequestsCallback callback) {
         // Simple query without complex nested selects
         String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches?driver_email=eq." + driverEmail + "&status=eq.pending";
@@ -560,7 +560,7 @@ public class UserRepository {
         });
     }
 
-    // NEW: Helper method to fetch passenger details for requests
+    //Helper method to fetch passenger details for requests
     private void fetchPassengerDetails(List<RideRequest> requests, RequestsCallback callback) {
         // Create a list to track completed requests
         List<RideRequest> completedRequests = new ArrayList<>();
@@ -644,7 +644,7 @@ public class UserRepository {
         }
     }
 
-    // NEW: Get accepted matches for a user (both as passenger and driver)
+    //Get accepted matches for a user (both as passenger and driver)
     public void getAcceptedMatches(String userEmail, AcceptedMatchesCallback callback) {
         String url = AuthRepository.SUPABASE_URL + "/rest/v1/matches?or=(passenger_email.eq." + userEmail + ",driver_email.eq." + userEmail + ")&status=eq.accepted";
         Log.d(TAG, "Fetching accepted matches from: " + url);
@@ -705,7 +705,7 @@ public class UserRepository {
         });
     }
 
-    // NEW: Get messages for a specific match
+    //Get messages for a specific match
     public void getMessages(String matchId, MessagesCallback callback) {
         String url = AuthRepository.SUPABASE_URL + "/rest/v1/messages?match_id=eq." + matchId + "&order=timestamp.asc";
         Log.d(TAG, "Fetching messages from: " + url);
@@ -768,7 +768,7 @@ public class UserRepository {
         });
     }
 
-    // NEW: Send a new message
+    // Send a new message
     public void sendMessage(String matchId, String senderId, String receiverId, String messageText, UserUpdateCallback callback) {
         try {
             JSONObject json = new JSONObject();
@@ -858,7 +858,7 @@ public class UserRepository {
         void onError(String error);
     }
 
-    // NEW: Add these interfaces to UserRepository
+    //Add these interfaces to UserRepository
     public interface AcceptedMatchesCallback {
         void onSuccess(List<AcceptedMatch> matches);
         void onError(String error);

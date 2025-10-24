@@ -104,7 +104,7 @@
             android:name=".ProfileActivity"
             android:exported="false" />
 
-        <!-- NEW: Agreement Reminder Broadcast Receiver -->
+        <!-- Agreement Reminder Broadcast Receiver -->
         <receiver
             android:name=".AgreementReminderReceiver"
             android:enabled="true"

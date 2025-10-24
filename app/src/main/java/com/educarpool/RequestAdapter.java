@@ -49,7 +49,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             }
         });
 
-        // Optional: Show passenger location on map when clicked
+        // Show passenger location on map when clicked
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onShowOnMap(request);
@@ -96,7 +96,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             }
 
             // For now, show verified icon for all passengers
-            // Later you can add verification status to users
+
             ivVerified.setVisibility(View.VISIBLE);
         }
     }

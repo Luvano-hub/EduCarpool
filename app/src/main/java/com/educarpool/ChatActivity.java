@@ -76,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(this, "Call feature coming soon", Toast.LENGTH_SHORT).show();
         });
 
-        // ✅ Updated handshake button click listener
+        // handshake button click listener
         btnHandshake.setOnClickListener(v -> {
             openAgreementPanel();
         });
@@ -84,7 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         btnSend.setOnClickListener(v -> sendMessage());
     }
 
-    // ✅ New method to open the Agreement Panel
+    // on open the Agreement Panel
     private void openAgreementPanel() {
         Intent intent = new Intent(ChatActivity.this, AgreementPanelActivity.class);
         intent.putExtra("match_id", matchId);

@@ -767,7 +767,6 @@ public class DriverDashboardActivity extends AppCompatActivity implements OnMapR
         });
     }
 
-    // Enhanced method to show route to passenger
     private void showRouteToPassenger(RideRequest request) {
         if (request.getPassengerLat() == null || request.getPassengerLng() == null) {
             Toast.makeText(this, "Passenger location not available", Toast.LENGTH_SHORT).show();

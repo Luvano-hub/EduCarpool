@@ -432,7 +432,7 @@ public class AgreementPanelActivity extends AppCompatActivity {
         });
     }
 
-    // Update the acceptAgreement method to schedule reminders
+    // the acceptAgreement method to schedule reminders
     private void acceptAgreement() {
         if (pendingAgreement == null) {
             Toast.makeText(this, "No pending agreement to accept", Toast.LENGTH_SHORT).show();
@@ -552,19 +552,19 @@ public class AgreementPanelActivity extends AppCompatActivity {
                 });
     }
 
-    // UPDATED: Changed from AgreementReminderService to AgreementReminderReceiver
+    // AgreementReminderReceiver
     private void scheduleAgreementReminders(Agreement agreement) {
         AgreementReminderReceiver.scheduleAgreementReminder(this, agreement);
         Log.d("AgreementPanel", "Scheduled reminders for agreement: " + agreement.getAgreementId());
     }
 
-    // UPDATED: Changed from AgreementReminderService to AgreementReminderReceiver
+    // AgreementReminderReceiver
     private void cancelAgreementReminders(String agreementId) {
         AgreementReminderReceiver.cancelAgreementReminders(this, agreementId);
         Log.d("AgreementPanel", "Cancelled reminders for agreement: " + agreementId);
     }
 
-    // NEW: Add this method to send manual reminders
+    // send manual reminders
     private void sendManualReminder() {
         if (activeAgreement == null) {
             Toast.makeText(this, "No active agreement to remind about", Toast.LENGTH_SHORT).show();
@@ -587,7 +587,7 @@ public class AgreementPanelActivity extends AppCompatActivity {
                 });
     }
 
-    // NEW: Add the history method
+    // history method
     private void showAgreementHistory() {
         // This would open a new activity showing all past agreements for this match
         Toast.makeText(this, "Agreement history coming soon!", Toast.LENGTH_SHORT).show();
